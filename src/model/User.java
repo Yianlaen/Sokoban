@@ -33,9 +33,10 @@ public class User implements java.io.Serializable {
         return this.username.equals(username) && this.password.equals(password);
     }
 
-    public void save(MapMatrix savedata, int savedLevel) { // Remember to save the Accounts to the file
+    public void save(MapMatrix savedata, int savedLevel) {
         this.savedata = savedata;
         this.savedLevel = savedLevel;
+        Accounts.save();
     }
 
     public boolean hasSavedata() {
@@ -45,6 +46,7 @@ public class User implements java.io.Serializable {
     public void clearSavedata() {
         this.savedata = null;
         this.savedLevel = -1;
+        Accounts.save();
     }
 
     public MapMatrix loadSavedata() {
