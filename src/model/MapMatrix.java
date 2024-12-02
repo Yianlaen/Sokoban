@@ -6,7 +6,9 @@ public class MapMatrix implements java.io.Serializable {
 
     public MapMatrix(int[][] matrix) {
         this.matrix = matrix;
-        assert isValid();
+        if (!isValid()) {
+            throw new IllegalArgumentException("Invalid map");
+        }
     }
 
     public int getWidth() {
@@ -30,22 +32,30 @@ public class MapMatrix implements java.io.Serializable {
     }
 
     public boolean isWall(int row, int col) {
-        assert inside(row, col);
+        if (!inside(row, col)) {
+            return true;
+        }
         return (matrix[row][col] & 1) > 0;
     }
 
     public boolean isDestination(int row, int col) {
-        assert inside(row, col);
+        if (!inside(row, col)) {
+            return false;
+        }
         return (matrix[row][col] & 2) > 0;
     }
 
     public boolean hasBox(int row, int col) {
-        assert inside(row, col);
+        if (!inside(row, col)) {
+            return false;
+        }
         return (matrix[row][col] & 4) > 0;
     }
 
     public boolean hasPlayer(int row, int col) {
-        assert inside(row, col);
+        if (!inside(row, col)) {
+            return false;
+        }
         return (matrix[row][col] & 8) > 0;
     }
 
@@ -54,7 +64,7 @@ public class MapMatrix implements java.io.Serializable {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 int cell = matrix[i][j];
-                if ((cell & 1) > 0 && cell != 1 || (cell & 12) > 0) {
+                if ((cell & 1) > 0 && cell != 1 || (cell & 12) == 12) {
                     return false;
                 }
                 if ((cell & 8) > 0) {
@@ -91,5 +101,21 @@ public class MapMatrix implements java.io.Serializable {
         int bits = matrix[row][col] & 12;
         matrix[row][col] ^= bits;
         matrix[row += dRow][col += dCol] |= bits;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                sb.append("" + matrix[i][j]);
+                if (j < matrix[0].length - 1) {
+                    sb.append(" ");
+                }
+            }
+            if (i < matrix.length - 1) {
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
     }
 }

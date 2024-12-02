@@ -56,4 +56,8 @@ public class User implements java.io.Serializable {
     public int loadSavedLevel() {
         return this.savedLevel;
     }
+
+    public String toString() {
+        return "[usr] " + this.username + " [pwd] " + this.password + " [lvl] " + this.savedLevel + " [map]:\n" + this.savedata;
+    }
 }
