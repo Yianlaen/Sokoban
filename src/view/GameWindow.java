@@ -3,8 +3,11 @@ package view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.GameController;
+
 public class GameWindow extends JFrame {
-    private static JPanel startup, login, register, levels;
+    private static JPanel startup, login, register, levels, game;
+    private static GameController gameController = new GameController();
 
     public GameWindow() {
         setTitle("Sokoban");
@@ -18,14 +21,17 @@ public class GameWindow extends JFrame {
         login = new view.stages.Login(800, 600);
         register = new view.stages.Register(800, 600);
         levels = new view.stages.Levels(800, 600);
+        game = new view.stages.Game(800, 600);
         showStartup();
         hideLogin();
         hideRegister();
         hideLevels();
+        hideGame();
         add(startup);
         add(login);
         add(register);
         add(levels);
+        add(game);
     }
 
     public static void showStartup() {
@@ -44,6 +50,10 @@ public class GameWindow extends JFrame {
         levels.setVisible(true);
     }
 
+    public static void showGame() {
+        game.setVisible(true);
+    }
+
     public static void hideStartup() {
         startup.setVisible(false);
     }
@@ -58,5 +68,13 @@ public class GameWindow extends JFrame {
 
     public static void hideLevels() {
         levels.setVisible(false);
+    }
+
+    public static void hideGame() {
+        game.setVisible(false);
+    }
+
+    public static GameController getGameController() {
+        return gameController;
     }
 }

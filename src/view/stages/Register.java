@@ -49,7 +49,10 @@ public class Register extends JPanel {
             System.out.println("P: " + password.getText());
             switch (Accounts.register(username.getText(), password.getText())) {
                 case 1:
-                    Accounts.currentUsername = username.getText();
+                    Accounts.currentUser = Accounts.findByName(username.getText());
+                    if (Accounts.currentUser == null) {
+                        throw new RuntimeException("User not found");
+                    }
                     username.setText("");
                     password.setText("");
                     GameWindow.hideRegister();

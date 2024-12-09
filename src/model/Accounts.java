@@ -9,7 +9,7 @@ import java.util.Vector;
 
 public class Accounts {
     public static Vector<User> users;
-    public static String currentUsername;
+    public static User currentUser;
     private static String saveName = "accounts.sav";
 
     public static void save() {
@@ -27,7 +27,7 @@ public class Accounts {
 
     public static void load() {
         users = new Vector<User>();
-        currentUsername = "";
+        currentUser = null;
         try {
             FileInputStream fin = new FileInputStream(saveName);
             ObjectInputStream ois = new ObjectInputStream(fin);
@@ -94,5 +94,14 @@ public class Accounts {
         Accounts.save();
         System.out.println("Registered new user");
         return 1;
+    }
+
+    public static User findByName(String username) {
+        for (User user : Accounts.users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
     }
 }

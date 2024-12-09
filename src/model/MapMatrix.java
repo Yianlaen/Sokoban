@@ -93,7 +93,22 @@ public class MapMatrix implements java.io.Serializable {
         return new MapMatrix(a);
     }
 
-    public void move(int row, int col, int dRow, int dCol) { // Validate the move before calling this method
+    public void move(int row, int col, int dRow, int dCol) {
+        if (!inside(row, col) || !inside(row + dRow, col + dCol)) {
+            throw new IllegalArgumentException("Invalid location");
+        }
+        if (isWall(row + dRow, col + dCol)) {
+            throw new IllegalArgumentException("Blocked by wall");
+        }
+        if (hasBox(row + dRow, col + dCol)) {
+            throw new IllegalArgumentException("Blocked by box");
+        }
+        if (hasPlayer(row + dRow, col + dCol)) {
+            throw new IllegalArgumentException("Blocked by player");
+        }
+        if (isWall(row, col)) {
+            throw new IllegalArgumentException("Cannot move wall");
+        }
         if (playerRow == row && playerCol == col) {
             playerRow += dRow;
             playerCol += dCol;
