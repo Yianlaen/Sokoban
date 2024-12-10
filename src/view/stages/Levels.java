@@ -2,6 +2,7 @@ package view.stages;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -13,6 +14,19 @@ public class Levels extends JPanel {
     public Levels(int width, int height) {
         setSize(width, height);
         setLayout(null);
+
+        JLabel username = new JLabel();
+        username.setLocation(20, 20);
+        username.setSize(200, 40);
+        add(username);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                username
+                        .setText(Accounts.currentUser == null ? "Guest User"
+                                : "User: " + Accounts.currentUser.getUsername());
+            }
+        });
 
         JButton backBtn = new JButton("Back");
         backBtn.setLocation(width - 150, height - 110);
