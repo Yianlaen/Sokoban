@@ -1,5 +1,6 @@
 package view.stages;
 
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -11,9 +12,10 @@ import view.GameWindow;
 public class Levels extends JPanel {
     public Levels(int width, int height) {
         setSize(width, height);
+        setLayout(null);
 
         JButton backBtn = new JButton("Back");
-        backBtn.setLocation(width - 150, height - 90);
+        backBtn.setLocation(width - 150, height - 110);
         backBtn.setSize(100, 40);
         add(backBtn);
         backBtn.addActionListener(_ -> {
@@ -67,9 +69,14 @@ public class Levels extends JPanel {
                 { 1, 1, 1, 1, 1, 1, 1, 1 },
         };
 
+        JPanel levelsPanel = new JPanel();
+        levelsPanel.setSize(400, 300);
+        levelsPanel.setLocation(200, 120);
+        levelsPanel.setLayout(new java.awt.GridLayout(3, 2, 50, 50));
+        add(levelsPanel);
+
         JButton loadButton = new JButton("Load");
-        loadButton.setSize(100, 40);
-        add(loadButton);
+        levelsPanel.add(loadButton);
         loadButton.addActionListener(_ -> {
             if (Accounts.currentUser == null) {
                 JOptionPane.showMessageDialog(null, "No user logged in.");
@@ -86,8 +93,7 @@ public class Levels extends JPanel {
         });
 
         JButton level1Button = new JButton("Level 1");
-        level1Button.setSize(100, 40);
-        add(level1Button);
+        levelsPanel.add(level1Button);
         level1Button.addActionListener(_ -> {
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level1));
             GameWindow.getGameController().setLevelId(1);
@@ -96,8 +102,7 @@ public class Levels extends JPanel {
         });
 
         JButton level2Button = new JButton("Level 2");
-        level2Button.setSize(100, 40);
-        add(level2Button);
+        levelsPanel.add(level2Button);
         level2Button.addActionListener(_ -> {
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level2));
             GameWindow.getGameController().setLevelId(2);
@@ -106,8 +111,7 @@ public class Levels extends JPanel {
         });
 
         JButton level3Button = new JButton("Level 3");
-        level3Button.setSize(100, 40);
-        add(level3Button);
+        levelsPanel.add(level3Button);
         level3Button.addActionListener(_ -> {
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level3));
             GameWindow.getGameController().setLevelId(3);
@@ -116,8 +120,7 @@ public class Levels extends JPanel {
         });
 
         JButton level4Button = new JButton("Level 4");
-        level4Button.setSize(100, 40);
-        add(level4Button);
+        levelsPanel.add(level4Button);
         level4Button.addActionListener(_ -> {
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level4));
             GameWindow.getGameController().setLevelId(4);
@@ -126,8 +129,7 @@ public class Levels extends JPanel {
         });
 
         JButton level5Button = new JButton("Level 5");
-        level5Button.setSize(100, 40);
-        add(level5Button);
+        levelsPanel.add(level5Button);
         level5Button.addActionListener(_ -> {
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level5));
             GameWindow.getGameController().setLevelId(5);
