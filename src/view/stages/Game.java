@@ -39,7 +39,7 @@ public class Game extends JPanel {
 
         JButton saveBtn = new JButton("Save");
         saveBtn.setSize(100, 40);
-        saveBtn.setLocation(600, 250);
+        saveBtn.setLocation(600, 150);
         add(saveBtn);
         saveBtn.addActionListener(_ -> {
             if (Accounts.getCurrentUser() == null) {
@@ -53,13 +53,13 @@ public class Game extends JPanel {
 
         JButton restartBtn = new JButton("Restart");
         restartBtn.setSize(100, 40);
-        restartBtn.setLocation(600, 300);
+        restartBtn.setLocation(600, 200);
         add(restartBtn);
         restartBtn.addActionListener(_ -> controller.init());
 
         JButton loadBtn = new JButton("Load");
         loadBtn.setSize(100, 40);
-        loadBtn.setLocation(600, 350);
+        loadBtn.setLocation(600, 250);
         add(loadBtn);
         loadBtn.addActionListener(_ -> {
             if (Accounts.getCurrentUser() == null) {
@@ -72,11 +72,47 @@ public class Game extends JPanel {
 
         JButton backBtn = new JButton("Back");
         backBtn.setSize(100, 40);
-        backBtn.setLocation(600, height - 110);
+        backBtn.setLocation(600, 300);
         add(backBtn);
         backBtn.addActionListener(_ -> {
             GameWindow.hideGame();
             GameWindow.showLevels();
+        });
+
+        JButton upBtn = new JButton("↑");
+        upBtn.setSize(50, 50);
+        upBtn.setLocation(625, 350);
+        add(upBtn);
+        upBtn.addActionListener(_ -> {
+            doMoveUp();
+            requestFocus();
+        });
+
+        JButton downBtn = new JButton("↓");
+        downBtn.setSize(50, 50);
+        downBtn.setLocation(625, 450);
+        add(downBtn);
+        downBtn.addActionListener(_ -> {
+            doMoveDown();
+            requestFocus();
+        });
+
+        JButton leftBtn = new JButton("←");
+        leftBtn.setSize(50, 50);
+        leftBtn.setLocation(575, 400);
+        add(leftBtn);
+        leftBtn.addActionListener(_ -> {
+            doMoveLeft();
+            requestFocus();
+        });
+
+        JButton rightBtn = new JButton("→");
+        rightBtn.setSize(50, 50);
+        rightBtn.setLocation(675, 400);
+        add(rightBtn);
+        rightBtn.addActionListener(_ -> {
+            doMoveRight();
+            requestFocus();
         });
     }
 
@@ -127,7 +163,7 @@ public class Game extends JPanel {
         if (this.levelId == null) {
             this.levelId = new JLabel("Level: " + levelId);
             this.levelId.setSize(100, 40);
-            this.levelId.setLocation(600, 150);
+            this.levelId.setLocation(600, 50);
             add(this.levelId);
         } else {
             this.levelId.setText("Level: " + levelId);
@@ -138,7 +174,7 @@ public class Game extends JPanel {
         if (this.steps == null) {
             this.steps = new JLabel("Steps: " + steps);
             this.steps.setSize(100, 40);
-            this.steps.setLocation(600, 200);
+            this.steps.setLocation(600, 100);
             add(this.steps);
         } else {
             this.steps.setText("Steps: " + steps);
