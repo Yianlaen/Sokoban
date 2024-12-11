@@ -247,4 +247,12 @@ public class Game extends JPanel {
         boxes[row + 2 * dRow][col + 2 * dCol] = box;
         boxes[row + dRow][col + dCol] = null;
     }
+
+    public void showVictory() {
+        JOptionPane.showMessageDialog(null, "Victory!");
+    }
+
+    public void showDefeat() {
+        JOptionPane.showMessageDialog(null, "Defeat!");
+    }
 }

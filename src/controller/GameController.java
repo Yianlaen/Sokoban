@@ -7,6 +7,7 @@ public class GameController {
     private int levelId;
     private view.stages.Game panel;
     private int startSteps, steps;
+    private boolean won;
 
     public GameController() {
     }
@@ -40,6 +41,7 @@ public class GameController {
     }
 
     public void init() {
+        won = false;
         matrix = startMatrix.copy();
         steps = startSteps;
         panel.setLevelId(levelId);
@@ -54,9 +56,15 @@ public class GameController {
             }
         }
         panel.setHeroInGrid(matrix.getPlayerRow(), matrix.getPlayerCol());
+        if (checkVictory()) {
+            panel.showVictory();
+        } else if (checkDefeat()) {
+            panel.showDefeat();
+        }
     }
 
     public void init(MapMatrix startMatrix, int levelId, int startSteps) {
+        won = false;
         matrix = startMatrix.copy();
         steps = startSteps;
         panel.setLevelId(levelId);
@@ -71,6 +79,11 @@ public class GameController {
             }
         }
         panel.setHeroInGrid(matrix.getPlayerRow(), matrix.getPlayerCol());
+        if (checkVictory()) {
+            panel.showVictory();
+        } else if (checkDefeat()) {
+            panel.showDefeat();
+        }
     }
 
     public void doMove(int dRow, int dCol) {
@@ -86,10 +99,7 @@ public class GameController {
             if (!matrix.inside(row + 2 * dRow, col + 2 * dCol)) {
                 return;
             }
-            if (matrix.isWall(row + 2 * dRow, col + 2 * dCol)) {
-                return;
-            }
-            if (matrix.hasBox(row + 2 * dRow, col + 2 * dCol)) {
+            if (matrix.isBlocked(row + 2 * dRow, col + 2 * dCol)) {
                 return;
             }
             matrix.move(row + dRow, col + dCol, dRow, dCol);
@@ -99,5 +109,42 @@ public class GameController {
             matrix.move(row, col, dRow, dCol);
             panel.moveHero(row, col, dRow, dCol);
         }
+        if (checkVictory()) {
+            panel.showVictory();
+        } else if (checkDefeat()) {
+            panel.showDefeat();
+        }
+    }
+
+    public boolean checkVictory() {
+        if (won)
+            return false;
+        for (int i = 0; i < matrix.getHeight(); i++) {
+            for (int j = 0; j < matrix.getWidth(); j++) {
+                if (matrix.isDestination(i, j) && !matrix.hasBox(i, j)) {
+                    return false;
+                }
+            }
+        }
+        won = true;
+        return true;
+    }
+
+    public boolean checkDefeat() {
+        if (won)
+            return false;
+        for (int i = 0; i < matrix.getHeight(); i++) {
+            for (int j = 0; j < matrix.getWidth(); j++) {
+                if (matrix.hasBox(i, j)) {
+                    if (!(matrix.isBlocked(i - 1, j) && matrix.isBlocked(i, j - 1) ||
+                            matrix.isBlocked(i - 1, j) && matrix.isBlocked(i, j + 1) ||
+                            matrix.isBlocked(i + 1, j) && matrix.isBlocked(i, j - 1) ||
+                            matrix.isBlocked(i + 1, j) && matrix.isBlocked(i, j + 1))) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

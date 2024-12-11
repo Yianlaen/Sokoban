@@ -59,6 +59,10 @@ public class MapMatrix implements java.io.Serializable {
         return (matrix[row][col] & 8) > 0;
     }
 
+    public boolean isBlocked(int row, int col) {
+        return isWall(row, col) || hasBox(row, col);
+    }
+
     public boolean isValid() {
         int playerCnt = 0, destinationCnt = 0, boxCnt = 0;
         for (int i = 0; i < matrix.length; i++) {
