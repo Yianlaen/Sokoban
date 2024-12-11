@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class Accounts {
-    public static Vector<User> users;
-    public static User currentUser;
+    private static Vector<User> users;
+    private static User currentUser;
     private static String saveName = "accounts.sav";
 
     public static void save() {
@@ -103,5 +103,13 @@ public class Accounts {
             }
         }
         return null;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User user) {
+        currentUser = user;
     }
 }

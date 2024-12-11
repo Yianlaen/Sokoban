@@ -1,13 +1,18 @@
 package view;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import controller.GameController;
 
 public class GameWindow extends JFrame {
-    private static JPanel startup, login, register, levels, game;
-    private static GameController gameController = new GameController();
+    private static view.stages.Startup startup;
+    private static view.stages.Login login;
+    private static view.stages.Register register;
+    private static view.stages.Levels levels;
+    private static view.stages.Game game;
+    private static GameController gameController;
 
     public GameWindow() {
         setTitle("Sokoban");
@@ -16,12 +21,16 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        int width = (int) getContentPane().getSize().getWidth(), height = (int) getContentPane().getSize().getHeight();
 
-        startup = new view.stages.Startup(800, 600);
-        login = new view.stages.Login(800, 600);
-        register = new view.stages.Register(800, 600);
-        levels = new view.stages.Levels(800, 600);
-        game = new view.stages.Game(800, 600);
+        startup = new view.stages.Startup(width, height);
+        login = new view.stages.Login(width, height);
+        register = new view.stages.Register(width, height);
+        levels = new view.stages.Levels(width, height);
+        game = new view.stages.Game(width, height);
+        gameController = new GameController();
+        game.setGameController(gameController);
+        gameController.setPanel(game);
         showStartup();
         hideLogin();
         hideRegister();

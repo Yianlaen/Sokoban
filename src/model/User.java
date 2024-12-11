@@ -5,6 +5,7 @@ public class User implements java.io.Serializable {
     private String password;
     private MapMatrix savedata;
     private int savedLevel;
+    private int steps;
 
     public User(String username, String password) {
         this.username = username;
@@ -57,7 +58,16 @@ public class User implements java.io.Serializable {
         return this.savedLevel;
     }
 
+    public void setSteps(int steps) {
+        this.steps = steps;
+    }
+
+    public int getSteps() {
+        return this.steps;
+    }
+
     public String toString() {
-        return "[usr] " + this.username + " [pwd] " + this.password + " [lvl] " + this.savedLevel + " [map]:\n" + this.savedata;
+        return "[usr] " + this.username + " [pwd] " + this.password + " [lvl] " + this.savedLevel + " [steps] "
+                + this.steps + " [map]:\n" + this.savedata;
     }
 }

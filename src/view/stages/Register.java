@@ -49,8 +49,8 @@ public class Register extends JPanel {
             System.out.println("P: " + password.getText());
             switch (Accounts.register(username.getText(), password.getText())) {
                 case 1:
-                    Accounts.currentUser = Accounts.findByName(username.getText());
-                    if (Accounts.currentUser == null) {
+                    Accounts.setCurrentUser(Accounts.findByName(username.getText()));
+                    if (Accounts.getCurrentUser() == null) {
                         throw new RuntimeException("User not found");
                     }
                     username.setText("");

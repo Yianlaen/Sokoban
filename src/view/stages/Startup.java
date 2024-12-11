@@ -39,7 +39,7 @@ public class Startup extends JPanel {
         guestButton.setLocation(width / 2 - 50, height / 2 + 10);
         guestButton.setSize(100, 40);
         guestButton.addActionListener(_ -> {
-            Accounts.currentUser = null;
+            Accounts.setCurrentUser(null);
             GameWindow.hideStartup();
             GameWindow.showLevels();
         });

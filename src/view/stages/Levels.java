@@ -1,6 +1,5 @@
 package view.stages;
 
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,8 +22,8 @@ public class Levels extends JPanel {
             @Override
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 username
-                        .setText(Accounts.currentUser == null ? "Guest User"
-                                : "User: " + Accounts.currentUser.getUsername());
+                        .setText(Accounts.getCurrentUser() == null ? "Guest User"
+                                : "User: " + Accounts.getCurrentUser().getUsername());
             }
         });
 
@@ -92,16 +91,17 @@ public class Levels extends JPanel {
         JButton loadButton = new JButton("Load");
         levelsPanel.add(loadButton);
         loadButton.addActionListener(_ -> {
-            if (Accounts.currentUser == null) {
+            if (Accounts.getCurrentUser() == null) {
                 JOptionPane.showMessageDialog(null, "No user logged in.");
                 return;
             }
-            if (Accounts.currentUser.loadSavedata() == null) {
+            if (Accounts.getCurrentUser().loadSavedata() == null) {
                 JOptionPane.showMessageDialog(null, "No savedata found.");
                 return;
             }
-            GameWindow.getGameController().setStartMatrix(Accounts.currentUser.loadSavedata());
-            GameWindow.getGameController().setLevelId(Accounts.currentUser.loadSavedLevel());
+            GameWindow.getGameController().setStartMatrix(Accounts.getCurrentUser().loadSavedata());
+            GameWindow.getGameController().setLevelId(Accounts.getCurrentUser().loadSavedLevel());
+            GameWindow.getGameController().setStartSteps(Accounts.getCurrentUser().getSteps());
             GameWindow.hideLevels();
             GameWindow.showGame();
         });
