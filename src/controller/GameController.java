@@ -7,7 +7,7 @@ public class GameController {
     private int levelId;
     private view.stages.Game panel;
     private int startSteps, steps;
-    private boolean won;
+    private boolean finished;
 
     public GameController() {
     }
@@ -41,7 +41,7 @@ public class GameController {
     }
 
     public void init() {
-        won = false;
+        finished = false;
         matrix = startMatrix.copy();
         steps = startSteps;
         panel.setLevelId(levelId);
@@ -64,7 +64,7 @@ public class GameController {
     }
 
     public void init(MapMatrix startMatrix, int levelId, int startSteps) {
-        won = false;
+        finished = false;
         matrix = startMatrix.copy();
         steps = startSteps;
         panel.setLevelId(levelId);
@@ -117,7 +117,7 @@ public class GameController {
     }
 
     public boolean checkVictory() {
-        if (won)
+        if (finished)
             return false;
         for (int i = 0; i < matrix.getHeight(); i++) {
             for (int j = 0; j < matrix.getWidth(); j++) {
@@ -126,12 +126,12 @@ public class GameController {
                 }
             }
         }
-        won = true;
+        finished = true;
         return true;
     }
 
     public boolean checkDefeat() {
-        if (won)
+        if (finished)
             return false;
         for (int i = 0; i < matrix.getHeight(); i++) {
             for (int j = 0; j < matrix.getWidth(); j++) {
@@ -145,6 +145,7 @@ public class GameController {
                 }
             }
         }
+        finished = true;
         return true;
     }
 }
