@@ -95,13 +95,13 @@ public class Levels extends JPanel {
                 JOptionPane.showMessageDialog(null, "No user logged in.");
                 return;
             }
-            if (Accounts.getCurrentUser().loadSavedata() == null) {
+            if (Accounts.getCurrentUser().loadSavedMap() == null) {
                 JOptionPane.showMessageDialog(null, "No savedata found.");
                 return;
             }
-            GameWindow.getGameController().setStartMatrix(Accounts.getCurrentUser().loadSavedata());
-            GameWindow.getGameController().setLevelId(Accounts.getCurrentUser().loadSavedLevel());
-            GameWindow.getGameController().setStartSteps(Accounts.getCurrentUser().getSteps());
+            GameWindow.getGameController().setStartMatrix(Accounts.getCurrentUser().loadSavedMap());
+            GameWindow.getGameController().setLevelId(Accounts.getCurrentUser().loadSavedLevelId());
+            GameWindow.getGameController().setStartSteps(Accounts.getCurrentUser().loadSavedSteps());
             GameWindow.hideLevels();
             GameWindow.showGame();
         });
