@@ -49,7 +49,7 @@ public class Login extends JPanel {
             System.out.println("P: " + password.getText());
             switch (Accounts.login(username.getText(), password.getText())) {
                 case 1:
-                    Accounts.setCurrentUser(Accounts.findByName(username.getText()));
+                    Accounts.setCurrentUser(Accounts.findUserByName(username.getText()));
                     if (Accounts.getCurrentUser() == null) {
                         throw new RuntimeException("User not found");
                     }

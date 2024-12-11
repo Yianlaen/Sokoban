@@ -2,4 +2,5 @@
 *.log
 *.jar
 bin/
-accounts.sav
+accounts.obj
+*.sav

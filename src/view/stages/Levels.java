@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import model.Accounts;
 import model.MapMatrix;
+import model.Save;
 import view.GameWindow;
 
 public class Levels extends JPanel {
@@ -95,13 +96,14 @@ public class Levels extends JPanel {
                 JOptionPane.showMessageDialog(null, "No user logged in.");
                 return;
             }
-            if (Accounts.getCurrentUser().loadSavedMap() == null) {
+            if (!Accounts.getCurrentUser().hasSavedata()) {
                 JOptionPane.showMessageDialog(null, "No savedata found.");
                 return;
             }
-            GameWindow.getGameController().setStartMatrix(Accounts.getCurrentUser().loadSavedMap());
-            GameWindow.getGameController().setLevelId(Accounts.getCurrentUser().loadSavedLevelId());
-            GameWindow.getGameController().setStartSteps(Accounts.getCurrentUser().loadSavedSteps());
+            Save save = Accounts.getCurrentUser().getSave();
+            GameWindow.getGameController().setStartMatrix(save.getSavedMap());
+            GameWindow.getGameController().setLevelId(save.getSavedLevelId());
+            GameWindow.getGameController().setStartSteps(save.getSavedSteps());
             GameWindow.hideLevels();
             GameWindow.showGame();
         });

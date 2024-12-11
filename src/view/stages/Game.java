@@ -11,6 +11,7 @@ import javax.swing.Timer;
 
 import controller.GameController;
 import model.Accounts;
+import model.Save;
 import view.GameWindow;
 import view.game.Box;
 import view.game.Grid;
@@ -64,8 +65,8 @@ public class Game extends JPanel {
             if (Accounts.getCurrentUser() == null) {
                 JOptionPane.showMessageDialog(null, "Please login first");
             } else {
-                controller.init(Accounts.getCurrentUser().loadSavedMap(), Accounts.getCurrentUser().loadSavedLevelId(),
-                        Accounts.getCurrentUser().loadSavedSteps());
+                Save save = Accounts.getCurrentUser().getSave();
+                controller.init(save.getSavedMap(), save.getSavedLevelId(), save.getSavedSteps());
             }
         });
 

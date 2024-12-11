@@ -7,7 +7,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         java.util.Locale.setDefault(java.util.Locale.ENGLISH);
         System.out.println("Sokoban project started!");
-        Accounts.load();
+        Accounts.load4file();
         SwingUtilities.invokeLater(() -> {
             new GameWindow();
         });
