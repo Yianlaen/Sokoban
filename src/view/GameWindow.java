@@ -3,7 +3,6 @@ package view;
 import javax.swing.JFrame;
 
 import controller.GameController;
-import controller.MapGenerator;
 
 public class GameWindow extends JFrame {
     private static view.stages.Startup startup;
