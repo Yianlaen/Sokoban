@@ -12,7 +12,6 @@ public class GameWindow extends JFrame {
     private static view.stages.Levels levels;
     private static view.stages.Game game;
     private static GameController gameController;
-    private static MapGenerator mapGenerator;
 
     public GameWindow() {
         setTitle("Sokoban");
@@ -85,13 +84,5 @@ public class GameWindow extends JFrame {
 
     public static GameController getGameController() {
         return gameController;
-    }
-
-    public static MapGenerator getMapGenerator() {
-        return mapGenerator;
-    }
-
-    public static void setMapGenerator(MapGenerator mapGenerator) {
-        GameWindow.mapGenerator = mapGenerator;
     }
 }

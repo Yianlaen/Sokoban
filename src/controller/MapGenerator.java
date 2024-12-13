@@ -75,8 +75,4 @@ public class MapGenerator {
     public MapMatrix generateStart() {
         return path.generateStart();
     }
-
-    public PathFinder getPathFinder() {
-        return path;
-    }
 }
