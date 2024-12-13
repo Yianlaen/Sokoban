@@ -115,7 +115,7 @@ public class Game extends JPanel {
             requestFocus();
         });
 
-        JButton autoBtn = new JButton("Auto");
+        JButton autoBtn = new JButton("🤖");
         autoBtn.setSize(50, 50);
         autoBtn.setLocation(625, 400);
         add(autoBtn);
