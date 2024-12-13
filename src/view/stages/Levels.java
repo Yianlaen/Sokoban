@@ -5,8 +5,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controller.MapGenerator;
 import model.Accounts;
 import model.MapMatrix;
+import model.RandGen;
 import model.Save;
 import view.GameWindow;
 
@@ -86,8 +88,18 @@ public class Levels extends JPanel {
         JPanel levelsPanel = new JPanel();
         levelsPanel.setSize(400, 300);
         levelsPanel.setLocation(200, 120);
-        levelsPanel.setLayout(new java.awt.GridLayout(3, 2, 50, 50));
+        levelsPanel.setLayout(new java.awt.GridLayout(4, 2, 50, 50));
         add(levelsPanel);
+
+        JButton randomButton = new JButton("Random");
+        levelsPanel.add(randomButton);
+        randomButton.addActionListener(_ -> {
+            GameWindow.setMapGenerator(new MapGenerator(RandGen.nextInt(6) + 5, RandGen.nextInt(6) + 5));
+            GameWindow.getGameController().setStartMatrix(GameWindow.getMapGenerator().generateStart());
+            GameWindow.getGameController().setLevelId(-1);
+            GameWindow.hideLevels();
+            GameWindow.showGame();
+        });
 
         JButton loadButton = new JButton("Load");
         levelsPanel.add(loadButton);
@@ -100,6 +112,7 @@ public class Levels extends JPanel {
                 JOptionPane.showMessageDialog(null, "No savedata found.");
                 return;
             }
+            GameWindow.setMapGenerator(null);
             Save save = Accounts.getCurrentUser().getSave();
             GameWindow.getGameController().setStartMatrix(save.getSavedMap());
             GameWindow.getGameController().setLevelId(save.getSavedLevelId());
@@ -111,6 +124,7 @@ public class Levels extends JPanel {
         JButton level1Button = new JButton("Level 1");
         levelsPanel.add(level1Button);
         level1Button.addActionListener(_ -> {
+            GameWindow.setMapGenerator(null);
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level1));
             GameWindow.getGameController().setLevelId(1);
             GameWindow.hideLevels();
@@ -120,6 +134,7 @@ public class Levels extends JPanel {
         JButton level2Button = new JButton("Level 2");
         levelsPanel.add(level2Button);
         level2Button.addActionListener(_ -> {
+            GameWindow.setMapGenerator(null);
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level2));
             GameWindow.getGameController().setLevelId(2);
             GameWindow.hideLevels();
@@ -129,6 +144,7 @@ public class Levels extends JPanel {
         JButton level3Button = new JButton("Level 3");
         levelsPanel.add(level3Button);
         level3Button.addActionListener(_ -> {
+            GameWindow.setMapGenerator(null);
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level3));
             GameWindow.getGameController().setLevelId(3);
             GameWindow.hideLevels();
@@ -138,6 +154,7 @@ public class Levels extends JPanel {
         JButton level4Button = new JButton("Level 4");
         levelsPanel.add(level4Button);
         level4Button.addActionListener(_ -> {
+            GameWindow.setMapGenerator(null);
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level4));
             GameWindow.getGameController().setLevelId(4);
             GameWindow.hideLevels();
@@ -147,6 +164,7 @@ public class Levels extends JPanel {
         JButton level5Button = new JButton("Level 5");
         levelsPanel.add(level5Button);
         level5Button.addActionListener(_ -> {
+            GameWindow.setMapGenerator(null);
             GameWindow.getGameController().setStartMatrix(new MapMatrix(level5));
             GameWindow.getGameController().setLevelId(5);
             GameWindow.hideLevels();

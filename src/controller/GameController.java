@@ -55,7 +55,7 @@ public class GameController {
                 }
             }
         }
-        panel.setHeroInGrid(matrix.getHeroRow(), matrix.getHeroCol());
+        panel.setHeroInGrid(matrix.getHeroX(), matrix.getHeroY());
         if (checkVictory()) {
             panel.showVictory();
         } else if (checkDefeat()) {
@@ -78,7 +78,7 @@ public class GameController {
                 }
             }
         }
-        panel.setHeroInGrid(matrix.getHeroRow(), matrix.getHeroCol());
+        panel.setHeroInGrid(matrix.getHeroX(), matrix.getHeroY());
         if (checkVictory()) {
             panel.showVictory();
         } else if (checkDefeat()) {
@@ -87,7 +87,7 @@ public class GameController {
     }
 
     public void doMove(int dRow, int dCol) {
-        int row = matrix.getHeroRow(), col = matrix.getHeroCol();
+        int row = matrix.getHeroX(), col = matrix.getHeroY();
         if (!matrix.inside(row + dRow, col + dCol)) {
             return;
         }

@@ -2,10 +2,30 @@ package model;
 
 public class MapMatrix implements java.io.Serializable {
     private int[][] matrix;
-    private int heroRow, heroCol;
+    private int heroX, heroY;
 
     public MapMatrix(int[][] matrix) {
         this.matrix = matrix;
+        if (!isValid()) {
+            throw new IllegalArgumentException("Invalid map");
+        }
+    }
+
+    public MapMatrix(MapMatrix map, GameInfo gameInfo) {
+        matrix = new int[map.getHeight()][map.getWidth()];
+        for (int i = 0; i < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++) {
+                matrix[i][j] = map.matrix[i][j]&3;
+            }
+        }
+        heroX = gameInfo.getHeroX();
+        heroY = gameInfo.getHeroY();
+        for (int i = 0; i < gameInfo.boxCnt(); i++) {
+            int x = gameInfo.getBoxX().get(i);
+            int y = gameInfo.getBoxY().get(i);
+            matrix[x][y] |= 4;
+        }
+        matrix[heroX][heroY] |= 8;
         if (!isValid()) {
             throw new IllegalArgumentException("Invalid map");
         }
@@ -19,12 +39,20 @@ public class MapMatrix implements java.io.Serializable {
         return matrix.length;
     }
 
-    public int getHeroRow() {
-        return heroRow;
+    public int getHeroX() {
+        return heroX;
     }
 
-    public int getHeroCol() {
-        return heroCol;
+    public int getHeroY() {
+        return heroY;
+    }
+
+    public int setHeroX(int row) {
+        return heroX = row;
+    }
+
+    public int setHeroY(int col) {
+        return heroY = col;
     }
 
     public boolean inside(int row, int col) {
@@ -73,8 +101,8 @@ public class MapMatrix implements java.io.Serializable {
                 }
                 if ((cell & 8) > 0) {
                     heroCnt++;
-                    heroRow = i;
-                    heroCol = j;
+                    heroX = i;
+                    heroY = j;
                 }
                 if ((cell & 4) > 0) {
                     boxCnt++;
@@ -113,9 +141,9 @@ public class MapMatrix implements java.io.Serializable {
         if (isWall(row, col)) {
             throw new IllegalArgumentException("Cannot move wall");
         }
-        if (heroRow == row && heroCol == col) {
-            heroRow += dRow;
-            heroCol += dCol;
+        if (heroX == row && heroY == col) {
+            heroX += dRow;
+            heroY += dCol;
         }
         int bits = matrix[row][col] & 12;
         matrix[row][col] ^= bits;
@@ -136,5 +164,9 @@ public class MapMatrix implements java.io.Serializable {
             }
         }
         return sb.toString();
+    }
+
+    public int[][] getRawMatrix() {
+        return matrix;
     }
 }
