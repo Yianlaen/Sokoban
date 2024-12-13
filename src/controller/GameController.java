@@ -10,6 +10,7 @@ public class GameController {
     private int startSteps, steps;
     private boolean finished;
     private PathFinder pathFinder;
+    private boolean booted;
 
     public GameController() {
     }
@@ -43,7 +44,7 @@ public class GameController {
     }
 
     public void init() {
-        pathFinder = null;
+        booted = false;
         finished = false;
         matrix = startMatrix.copy();
         steps = startSteps;
@@ -64,10 +65,12 @@ public class GameController {
         } else if (checkDefeat()) {
             panel.showDefeat();
         }
+        pathFinder = new PathFinder(startMatrix);
+        booted = true;
     }
 
     public void init(MapMatrix startMatrix, int levelId, int startSteps) {
-        pathFinder = null;
+        booted = false;
         finished = false;
         matrix = startMatrix.copy();
         steps = startSteps;
@@ -88,6 +91,8 @@ public class GameController {
         } else if (checkDefeat()) {
             panel.showDefeat();
         }
+        pathFinder = new PathFinder(startMatrix);
+        booted = true;
     }
 
     public void doMove(int dRow, int dCol) {
@@ -155,8 +160,8 @@ public class GameController {
 
     public int autoNextMove() {
         GameInfo current = new GameInfo(matrix);
-        if (pathFinder == null) {
-            pathFinder = new PathFinder(matrix);
+        if (!booted) {
+            return -2;
         }
         switch (pathFinder.nextMove(current)) {
             case 0:
@@ -171,10 +176,6 @@ public class GameController {
             case 3:
                 doMove(0, 1);
                 break;
-            case -1:
-                return -1;
-            case -2:
-                return -2;
             default:
                 return -1;
         }
