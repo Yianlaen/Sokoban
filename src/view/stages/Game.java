@@ -114,6 +114,26 @@ public class Game extends JPanel {
             doMoveRight();
             requestFocus();
         });
+
+        JButton autoBtn = new JButton("Auto");
+        autoBtn.setSize(50, 50);
+        autoBtn.setLocation(625, 400);
+        add(autoBtn);
+        autoBtn.addActionListener(_ -> {
+            switch (controller.autoNextMove()) {
+                case 0:
+                    break;
+                case -1:
+                    JOptionPane.showMessageDialog(null, "No winning move!");
+                    break;
+                case -2:
+                    JOptionPane.showMessageDialog(null, "Engine not loaded!");
+                    break;
+                default:
+                    break;
+            }
+            requestFocus();
+        });
     }
 
     public void initGrids(int rows, int cols) {

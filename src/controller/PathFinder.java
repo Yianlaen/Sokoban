@@ -77,4 +77,32 @@ public class PathFinder {
     public MapMatrix generateStart() {
         return new MapMatrix(matrix, start);
     }
+
+    public int nextMove(GameInfo gameInfo) {
+        if (gameInfo == null || !distance.containsKey(gameInfo.hashCode()) || distance.get(gameInfo.hashCode()) == 0) {
+            return -1;
+        }
+        int currentDistance = distance.get(gameInfo.hashCode());
+        GameInfo next = gameInfo.moveUp();
+        if (next != null && distance.containsKey(next.hashCode())
+                && distance.get(next.hashCode()) == currentDistance - 1) {
+            return 0;
+        }
+        next = gameInfo.moveDown();
+        if (next != null && distance.containsKey(next.hashCode())
+                && distance.get(next.hashCode()) == currentDistance - 1) {
+            return 1;
+        }
+        next = gameInfo.moveLeft();
+        if (next != null && distance.containsKey(next.hashCode())
+                && distance.get(next.hashCode()) == currentDistance - 1) {
+            return 2;
+        }
+        next = gameInfo.moveRight();
+        if (next != null && distance.containsKey(next.hashCode())
+                && distance.get(next.hashCode()) == currentDistance - 1) {
+            return 3;
+        }
+        return -2;
+    }
 }

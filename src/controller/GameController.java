@@ -1,5 +1,6 @@
 package controller;
 
+import model.GameInfo;
 import model.MapMatrix;
 
 public class GameController {
@@ -8,6 +9,7 @@ public class GameController {
     private view.stages.Game panel;
     private int startSteps, steps;
     private boolean finished;
+    private PathFinder pathFinder;
 
     public GameController() {
     }
@@ -41,6 +43,7 @@ public class GameController {
     }
 
     public void init() {
+        pathFinder = null;
         finished = false;
         matrix = startMatrix.copy();
         steps = startSteps;
@@ -64,6 +67,7 @@ public class GameController {
     }
 
     public void init(MapMatrix startMatrix, int levelId, int startSteps) {
+        pathFinder = null;
         finished = false;
         matrix = startMatrix.copy();
         steps = startSteps;
@@ -147,5 +151,33 @@ public class GameController {
         }
         finished = true;
         return true;
+    }
+
+    public int autoNextMove() {
+        GameInfo current = new GameInfo(matrix);
+        if (pathFinder == null) {
+            pathFinder = new PathFinder(matrix);
+        }
+        switch (pathFinder.nextMove(current)) {
+            case 0:
+                doMove(-1, 0);
+                break;
+            case 1:
+                doMove(1, 0);
+                break;
+            case 2:
+                doMove(0, -1);
+                break;
+            case 3:
+                doMove(0, 1);
+                break;
+            case -1:
+                return -1;
+            case -2:
+                return -2;
+            default:
+                return -1;
+        }
+        return 0;
     }
 }
