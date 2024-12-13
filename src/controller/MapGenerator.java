@@ -69,8 +69,6 @@ public class MapGenerator {
         while (!generateGrids())
             System.out.println("Generation of Grids failed!");
         matrix = new MapMatrix(map);
-        System.out.println("matrix generated");
-        System.out.println(matrix);
         path = new PathFinder(matrix);
     }
 
