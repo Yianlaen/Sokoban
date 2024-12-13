@@ -2,7 +2,7 @@ package model;
 
 public class MapMatrix implements java.io.Serializable {
     private int[][] matrix;
-    private int playerRow, playerCol;
+    private int heroRow, heroCol;
 
     public MapMatrix(int[][] matrix) {
         this.matrix = matrix;
@@ -19,12 +19,12 @@ public class MapMatrix implements java.io.Serializable {
         return matrix.length;
     }
 
-    public int getPlayerRow() {
-        return playerRow;
+    public int getHeroRow() {
+        return heroRow;
     }
 
-    public int getPlayerCol() {
-        return playerCol;
+    public int getHeroCol() {
+        return heroCol;
     }
 
     public boolean inside(int row, int col) {
@@ -38,7 +38,7 @@ public class MapMatrix implements java.io.Serializable {
         return (matrix[row][col] & 1) > 0;
     }
 
-    public boolean isDestination(int row, int col) {
+    public boolean isGoal(int row, int col) {
         if (!inside(row, col)) {
             return false;
         }
@@ -52,7 +52,7 @@ public class MapMatrix implements java.io.Serializable {
         return (matrix[row][col] & 4) > 0;
     }
 
-    public boolean hasPlayer(int row, int col) {
+    public boolean hasHero(int row, int col) {
         if (!inside(row, col)) {
             return false;
         }
@@ -64,7 +64,7 @@ public class MapMatrix implements java.io.Serializable {
     }
 
     public boolean isValid() {
-        int playerCnt = 0, destinationCnt = 0, boxCnt = 0;
+        int heroCnt = 0, goalCnt = 0, boxCnt = 0;
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 int cell = matrix[i][j];
@@ -72,19 +72,19 @@ public class MapMatrix implements java.io.Serializable {
                     return false;
                 }
                 if ((cell & 8) > 0) {
-                    playerCnt++;
-                    playerRow = i;
-                    playerCol = j;
+                    heroCnt++;
+                    heroRow = i;
+                    heroCol = j;
                 }
                 if ((cell & 4) > 0) {
                     boxCnt++;
                 }
                 if ((cell & 2) > 0) {
-                    destinationCnt++;
+                    goalCnt++;
                 }
             }
         }
-        return playerCnt == 1 && destinationCnt == boxCnt;
+        return heroCnt == 1 && goalCnt == boxCnt;
     }
 
     public MapMatrix copy() {
@@ -107,15 +107,15 @@ public class MapMatrix implements java.io.Serializable {
         if (hasBox(row + dRow, col + dCol)) {
             throw new IllegalArgumentException("Blocked by box");
         }
-        if (hasPlayer(row + dRow, col + dCol)) {
-            throw new IllegalArgumentException("Blocked by player");
+        if (hasHero(row + dRow, col + dCol)) {
+            throw new IllegalArgumentException("Blocked by hero");
         }
         if (isWall(row, col)) {
             throw new IllegalArgumentException("Cannot move wall");
         }
-        if (playerRow == row && playerCol == col) {
-            playerRow += dRow;
-            playerCol += dCol;
+        if (heroRow == row && heroCol == col) {
+            heroRow += dRow;
+            heroCol += dCol;
         }
         int bits = matrix[row][col] & 12;
         matrix[row][col] ^= bits;

@@ -49,13 +49,13 @@ public class GameController {
         panel.initGrids(matrix.getHeight(), matrix.getWidth());
         for (int i = 0; i < matrix.getHeight(); i++) {
             for (int j = 0; j < matrix.getWidth(); j++) {
-                panel.paintGrid(i, j, matrix.isWall(i, j) ? 1 : matrix.isDestination(i, j) ? 2 : 0);
+                panel.paintGrid(i, j, matrix.isWall(i, j) ? 1 : matrix.isGoal(i, j) ? 2 : 0);
                 if (matrix.hasBox(i, j)) {
                     panel.setBoxInGrid(i, j);
                 }
             }
         }
-        panel.setHeroInGrid(matrix.getPlayerRow(), matrix.getPlayerCol());
+        panel.setHeroInGrid(matrix.getHeroRow(), matrix.getHeroCol());
         if (checkVictory()) {
             panel.showVictory();
         } else if (checkDefeat()) {
@@ -72,13 +72,13 @@ public class GameController {
         panel.initGrids(matrix.getHeight(), matrix.getWidth());
         for (int i = 0; i < matrix.getHeight(); i++) {
             for (int j = 0; j < matrix.getWidth(); j++) {
-                panel.paintGrid(i, j, matrix.isWall(i, j) ? 1 : matrix.isDestination(i, j) ? 2 : 0);
+                panel.paintGrid(i, j, matrix.isWall(i, j) ? 1 : matrix.isGoal(i, j) ? 2 : 0);
                 if (matrix.hasBox(i, j)) {
                     panel.setBoxInGrid(i, j);
                 }
             }
         }
-        panel.setHeroInGrid(matrix.getPlayerRow(), matrix.getPlayerCol());
+        panel.setHeroInGrid(matrix.getHeroRow(), matrix.getHeroCol());
         if (checkVictory()) {
             panel.showVictory();
         } else if (checkDefeat()) {
@@ -87,7 +87,7 @@ public class GameController {
     }
 
     public void doMove(int dRow, int dCol) {
-        int row = matrix.getPlayerRow(), col = matrix.getPlayerCol();
+        int row = matrix.getHeroRow(), col = matrix.getHeroCol();
         if (!matrix.inside(row + dRow, col + dCol)) {
             return;
         }
@@ -121,7 +121,7 @@ public class GameController {
             return false;
         for (int i = 0; i < matrix.getHeight(); i++) {
             for (int j = 0; j < matrix.getWidth(); j++) {
-                if (matrix.isDestination(i, j) && !matrix.hasBox(i, j)) {
+                if (matrix.isGoal(i, j) && !matrix.hasBox(i, j)) {
                     return false;
                 }
             }
