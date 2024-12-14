@@ -78,6 +78,10 @@ public class PathFinder {
         return new MapMatrix(matrix, start);
     }
 
+    public int distanceStart() {
+        return distance.get(start.hashCode());
+    }
+
     public int nextMove(GameInfo gameInfo) {
         if (gameInfo == null || !distance.containsKey(gameInfo.hashCode()) || distance.get(gameInfo.hashCode()) == 0) {
             return -1;

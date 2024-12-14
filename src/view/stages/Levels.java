@@ -94,7 +94,7 @@ public class Levels extends JPanel {
         JButton randomButton = new JButton("Random");
         levelsPanel.add(randomButton);
         randomButton.addActionListener(_ -> {
-            MapGenerator nmap = new MapGenerator(RandGen.nextInt(6) + 5, RandGen.nextInt(6) + 5);
+            MapGenerator nmap = new MapGenerator();
             GameWindow.getGameController().setStartMatrix(nmap.generateStart());
             GameWindow.getGameController().setLevelId(-1);
             GameWindow.hideLevels();

@@ -59,17 +59,16 @@ public class MapGenerator {
         return true;
     }
 
-    public MapGenerator(int height, int width) {
-        if (height < 5 || width < 5 || height > 10 || width > 10) {
-            throw new IllegalArgumentException("Map size illegal!");
-        }
-        this.height = height;
-        this.width = width;
-        map = new int[height][width];
-        while (!generateGrids())
-            System.out.println("Generation of Grids failed!");
-        matrix = new MapMatrix(map);
-        path = new PathFinder(matrix);
+    public MapGenerator() {
+        do {
+            height = RandGen.nextInt(6) + 5;
+            width = RandGen.nextInt(6) + 5;
+            map = new int[height][width];
+            while (!generateGrids())
+                System.out.println("Generation of Grids failed!");
+            matrix = new MapMatrix(map);
+            path = new PathFinder(matrix);
+        } while (path.distanceStart() <= 20);
     }
 
     public MapMatrix generateStart() {
