@@ -1,6 +1,6 @@
 ## Sokoban
 
-It's a final project of course CS107. It features making a replica of the famous computer game. Instructions are found in the `Sokoban.pdf`.
+It's a final project of course CS107 in SUSTech. It features making a replica of the famous computer game. Instructions are found in the `Sokoban.pdf`.
 
 ## Folder Structure
 
