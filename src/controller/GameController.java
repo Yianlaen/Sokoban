@@ -137,6 +137,8 @@ public class GameController {
     }
 
     public int autoNextMove() {
+        if (finished)
+            return 0;
         GameInfo current = new GameInfo(matrix);
         if (!booted) {
             return -2;
