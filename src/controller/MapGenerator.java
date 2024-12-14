@@ -59,16 +59,18 @@ public class MapGenerator {
         return true;
     }
 
-    public MapGenerator() {
+    public MapGenerator(int minimumSteps) {
+        int counter = 1;
         do {
             height = RandGen.nextInt(6) + 5;
             width = RandGen.nextInt(6) + 5;
             map = new int[height][width];
             while (!generateGrids())
-                System.out.println("Generation of Grids failed!");
+                ++counter;
             matrix = new MapMatrix(map);
             path = new PathFinder(matrix);
-        } while (path.distanceStart() <= 20);
+        } while (path.distanceStart() <= minimumSteps || path.distanceStart() >= minimumSteps + 30);
+        System.out.println("Map generated in " + counter + " tries.");
     }
 
     public MapMatrix generateStart() {

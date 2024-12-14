@@ -93,7 +93,10 @@ public class Levels extends JPanel {
         JButton randomButton = new JButton("Random");
         levelsPanel.add(randomButton);
         randomButton.addActionListener(_ -> {
-            MapGenerator nmap = new MapGenerator();
+            String[] options = { "Easy", "Medium", "Hard" };
+            int difficulty = JOptionPane.showOptionDialog(null, "Select Difficulty", "Difficulty",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+            MapGenerator nmap = new MapGenerator(15 + difficulty * 30);
             GameWindow.getGameController().setStartMatrix(nmap.generateStart());
             GameWindow.getGameController().setLevelId(-1);
             GameWindow.hideLevels();
