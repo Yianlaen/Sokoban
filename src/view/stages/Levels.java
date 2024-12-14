@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import controller.MapGenerator;
 import model.Accounts;
 import model.MapMatrix;
-import model.RandGen;
 import model.Save;
 import view.GameWindow;
 
