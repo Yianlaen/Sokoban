@@ -44,29 +44,7 @@ public class GameController {
     }
 
     public void init() {
-        booted = false;
-        finished = false;
-        matrix = startMatrix.copy();
-        steps = startSteps;
-        panel.setLevelId(levelId);
-        panel.setSteps(steps);
-        panel.initGrids(matrix.getHeight(), matrix.getWidth());
-        for (int i = 0; i < matrix.getHeight(); i++) {
-            for (int j = 0; j < matrix.getWidth(); j++) {
-                panel.paintGrid(i, j, matrix.isWall(i, j) ? 1 : matrix.isGoal(i, j) ? 2 : 0);
-                if (matrix.hasBox(i, j)) {
-                    panel.setBoxInGrid(i, j);
-                }
-            }
-        }
-        panel.setHeroInGrid(matrix.getHeroX(), matrix.getHeroY());
-        if (checkVictory()) {
-            panel.showVictory();
-        } else if (checkDefeat()) {
-            panel.showDefeat();
-        }
-        pathFinder = new PathFinder(startMatrix);
-        booted = true;
+        init(startMatrix, levelId, startSteps);
     }
 
     public void init(MapMatrix startMatrix, int levelId, int startSteps) {
