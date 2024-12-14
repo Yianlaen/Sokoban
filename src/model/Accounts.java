@@ -22,7 +22,7 @@ public class Accounts {
             oos.close();
             fos.close();
         } catch (IOException e) {
-            System.err.println(e);
+            System.out.println(e);
         }
         System.out.println("Saved file for " + save.getUsername());
     }
@@ -36,7 +36,7 @@ public class Accounts {
             oos.close();
             fos.close();
         } catch (IOException e) {
-            System.err.println(e);
+            System.out.println(e);
         }
         System.out.println("Saved accounts");
     }
@@ -55,12 +55,12 @@ public class Accounts {
             ois.close();
             fin.close();
         } catch (IOException e) {
-            System.err.println(e);
+            System.out.println(e);
             System.out.println("Creating new accounts list");
             users.add(new User("admin", "admin"));
             save2file();
         } catch (ClassNotFoundException e) {
-            System.err.println(e);
+            System.out.println(e);
         }
         System.out.println("Loaded accounts list");
         for (User user : users) {
@@ -72,9 +72,9 @@ public class Accounts {
                 ois.close();
                 fin.close();
             } catch (IOException e) {
-                System.err.println(e);
+                System.out.println(e);
             } catch (ClassNotFoundException e) {
-                System.err.println(e);
+                System.out.println(e);
             }
         }
         System.out.println("Loaded save files");
