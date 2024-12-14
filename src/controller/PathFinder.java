@@ -23,7 +23,7 @@ public class PathFinder {
             queue.add(win);
             distance.put(win.hashCode(), 0);
         }
-        start = wins.get(0).reverseUpHero();
+        start = wins.get(0);
         while (!queue.isEmpty()) {
             GameInfo current = queue.poll();
             int currentDistance = distance.get(current.hashCode());
