@@ -4,3 +4,5 @@
 bin/
 accounts.obj
 *.sav
+.vscode/*
+.vscode
