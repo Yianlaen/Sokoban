@@ -17,6 +17,7 @@ public class Game extends JPanel {
     private GameController controller;
     private JLabel levelId, steps;
     private GameCam gameCam;
+    private JPanel gamePanel;
 
     public Game(int width, int height) {
         enableEvents(java.awt.AWTEvent.KEY_EVENT_MASK);
@@ -127,15 +128,21 @@ public class Game extends JPanel {
             }
             requestFocus();
         });
+
+        gamePanel = new JPanel();
+        gamePanel.setSize(400, 400);
+        gamePanel.setLocation(100, (getHeight() - 400) / 2);
+        gamePanel.setLayout(null);
+        add(gamePanel);
     }
 
     public void initGrids(int rows, int cols) {
         requestFocus();
         if (gameCam != null)
-            remove(gameCam);
+            gamePanel.remove(gameCam);
         gameCam = new GameCam(rows, cols);
-        add(gameCam);
-        gameCam.setLocation(100, (getHeight() - gameCam.getHeight()) / 2);
+        gamePanel.add(gameCam);
+        gameCam.setLocation(-100, -100);
     }
 
     @Override
