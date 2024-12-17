@@ -52,5 +52,10 @@ public class Startup extends JPanel {
         exitButton.addActionListener(_ -> System.exit(0));
         exitButton.setVisible(true);
         add(exitButton);
+
+        JLabel specialThanks = new JLabel("External Code Used: https://github.com/pajouheshgar/3D-Swing");
+        specialThanks.setLocation(width / 2 - 200, height - 50);
+        specialThanks.setSize(400, 40);
+        add(specialThanks);
     }
 }

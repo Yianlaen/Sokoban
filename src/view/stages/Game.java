@@ -3,27 +3,20 @@ package view.stages;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import controller.GameController;
 import model.Accounts;
 import model.Save;
 import view.GameWindow;
-import view.game.Box;
-import view.game.Grid;
-import view.game.Hero;
+import view.game.GameCam;
 
 public class Game extends JPanel {
     private GameController controller;
-    private Grid[][] grids;
-    private Box[][] boxes;
-    private Hero hero;
-    private int size;
     private JLabel levelId, steps;
+    private GameCam gameCam;
 
     public Game(int width, int height) {
         enableEvents(java.awt.AWTEvent.KEY_EVENT_MASK);
@@ -138,28 +131,11 @@ public class Game extends JPanel {
 
     public void initGrids(int rows, int cols) {
         requestFocus();
-        if (this.grids != null) {
-            for (int i = 0; i < grids.length; i++) {
-                for (int j = 0; j < grids[0].length; j++) {
-                    if (grids[i][j] != null) {
-                        remove(grids[i][j]);
-                    }
-                    if (boxes[i][j] != null) {
-                        remove(boxes[i][j]);
-                    }
-                }
-            }
-        }
-        if (hero != null) {
-            remove(hero);
-        }
-        repaint();
-        size = getWidth() / 2 / Math.max(rows, cols);
-        grids = new Grid[rows][cols];
-        boxes = new Box[rows][cols];
-        hero = new Hero(size - 16);
-        add(hero);
-        setComponentZOrder(hero, 1);
+        if (gameCam != null)
+            remove(gameCam);
+        gameCam = new GameCam(rows, cols);
+        add(gameCam);
+        gameCam.setLocation(100, (getHeight() - gameCam.getHeight()) / 2);
     }
 
     @Override
@@ -218,54 +194,23 @@ public class Game extends JPanel {
     }
 
     public void paintGrid(int i, int j, int type) {
-        if (grids[i][j] == null) {
-            grids[i][j] = new Grid(size, type);
-            grids[i][j].setLocation(100 + j * size, (getHeight() - grids.length * size) / 2 + i * size);
-            add(grids[i][j]);
-        } else {
-            grids[i][j].setType(type);
-        }
+        gameCam.paintGrid(i, j, type);
     }
 
     public void setBoxInGrid(int i, int j) {
-        if (boxes[i][j] != null) {
-            throw new RuntimeException("Box already exists in this grid");
-        }
-        boxes[i][j] = new Box(size - 10);
-        boxes[i][j].setLocation(100 + j * size + 5, (getHeight() - grids.length * size) / 2 + i * size + 5);
-        add(boxes[i][j]);
-        setComponentZOrder(boxes[i][j], 1);
+        gameCam.setBoxInGrid(i, j);
     }
 
     public void setHeroInGrid(int i, int j) {
-        hero.setLocation(100 + j * size + 8, (getHeight() - grids.length * size) / 2 + i * size + 8);
-    }
-
-    public void moveObj(JComponent obj, int dRow, int dCol) {
-        final int[] count = { 0 };
-        Timer timer = new Timer(15, e -> {
-            if (count[0] < size) {
-                int delta = Math.min(size - count[0], 15);
-                obj.setLocation(obj.getX() + dCol * delta, obj.getY() + dRow * delta);
-                count[0] += delta;
-                repaint();
-            } else {
-                ((Timer) e.getSource()).stop();
-            }
-        });
-        timer.start();
+        gameCam.setHeroInGrid(i, j);
     }
 
     public void moveHero(int row, int col, int dRow, int dCol) {
-        moveObj(hero, dRow, dCol);
+        gameCam.moveHero(row, col, dRow, dCol);
     }
 
     public void moveHeroBox(int row, int col, int dRow, int dCol) {
-        Box box = boxes[row + dRow][col + dCol];
-        moveObj(hero, dRow, dCol);
-        moveObj(box, dRow, dCol);
-        boxes[row + 2 * dRow][col + 2 * dCol] = box;
-        boxes[row + dRow][col + dCol] = null;
+        gameCam.moveHeroBox(row, col, dRow, dCol);
     }
 
     public void showVictory() {

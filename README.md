@@ -10,3 +10,7 @@ The workspace contains two folders by default, where:
 - `lib`: the folder to maintain dependencies
 
 Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+
+## Special Thanks
+
+This code used code from [pajouheshgar/3D-Swing](https://github.com/pajouheshgar/3D-Swing), and is thus under GPLv3.
