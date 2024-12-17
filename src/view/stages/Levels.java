@@ -96,6 +96,9 @@ public class Levels extends JPanel {
             String[] options = { "Easy", "Medium", "Hard" };
             int difficulty = JOptionPane.showOptionDialog(null, "Select Difficulty", "Difficulty",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+            if (difficulty == JOptionPane.CLOSED_OPTION) {
+                return;
+            }
             MapGenerator nmap = new MapGenerator(15 + difficulty * 30);
             GameWindow.getGameController().setStartMatrix(nmap.generateStart());
             GameWindow.getGameController().setLevelId(-1);
