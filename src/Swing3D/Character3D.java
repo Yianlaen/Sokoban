@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class Character3D implements Drawable {
     private ArrayList<Object3D> object3DList;
     private Vector3 center;
-    private Color color;
 
     public Character3D() {
         object3DList = new ArrayList<>();

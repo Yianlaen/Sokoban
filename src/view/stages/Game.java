@@ -60,6 +60,10 @@ public class Game extends JPanel {
                 JOptionPane.showMessageDialog(null, "Please login first");
             } else {
                 Save save = Accounts.getCurrentUser().getSave();
+                if (save == null) {
+                    JOptionPane.showMessageDialog(null, "No save found!");
+                    return;
+                }
                 controller.init(save.getSavedMap(), save.getSavedLevelId(), save.getSavedSteps());
             }
         });

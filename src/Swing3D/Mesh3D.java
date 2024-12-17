@@ -1,7 +1,6 @@
 package Swing3D;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -9,8 +8,6 @@ import java.util.ArrayList;
  */
 public class Mesh3D implements Drawable {
     private ArrayList<Vector3> nodeVector3List;
-    private ArrayList<Vector2> textureCoordinateList;
-    private BufferedImage texture;
     private Color color;
     private boolean transparent;
 

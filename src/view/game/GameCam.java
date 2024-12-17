@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -45,7 +44,8 @@ public class GameCam extends JPanel {
     }
 
     private void placeCamera() {
-        camera.moveTo(hero.getCharacter3D().getCenter().plus(new Vector3(5, 0, 7)));
+        camera.moveTo(hero.getCharacter3D().getCenter()
+                .plus(new Vector3((getRows() + getCols()) * 0.5f, 0, (getRows() + getCols()) * 0.7f)));
         camera.lookAt(hero.getCharacter3D().getCenter());
         camera.setUpVector(new Vector3(0, 0, 1));
     }
@@ -73,13 +73,12 @@ public class GameCam extends JPanel {
     }
 
     public void paintGrid(int i, int j, int type) {
-        System.out.println("Painting grid " + i + " " + j + " " + type);
         switch (type) {
             case 0: // Ground
                 grids[i][j] = Object3DFactory.createGround(new Vector2(i, j), 1, 1, Color.WHITE);
                 break;
             case 1: // Wall
-                grids[i][j] = Object3DFactory.createNonSymmetricCube(1, 1, 1, Color.GRAY)
+                grids[i][j] = Object3DFactory.createCube(1, Color.GRAY)
                         .translate(new Vector3(i, j, 0));
                 break;
             case 2: // Goal
