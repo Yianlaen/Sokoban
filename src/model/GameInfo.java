@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class GameInfo {
-    private ArrayList<Integer> boxX, boxY;
+    private int[] boxX, boxY;
     private int heroX, heroY;
     private MapMatrix matrix;
 
@@ -11,24 +11,26 @@ public class GameInfo {
         this.matrix = game.matrix;
         this.heroX = game.heroX;
         this.heroY = game.heroY;
-        this.boxX = new ArrayList<Integer>(game.boxX);
-        this.boxY = new ArrayList<Integer>(game.boxY);
-    }
-
-    public GameInfo() {
-        this.boxX = new ArrayList<Integer>();
-        this.boxY = new ArrayList<Integer>();
+        this.boxX = game.boxX.clone();
+        this.boxY = game.boxY.clone();
     }
 
     public GameInfo(MapMatrix matrix) {
         this.matrix = matrix;
-        boxX = new ArrayList<Integer>();
-        boxY = new ArrayList<Integer>();
+        int cnt = 0;
+        for (int i = 0; i < matrix.getHeight(); i++) {
+            for (int j = 0; j < matrix.getWidth(); j++) {
+                cnt += matrix.hasBox(i, j) ? 1 : 0;
+            }
+        }
+        boxX = new int[cnt];
+        boxY = new int[cnt];
+        cnt = 0;
         for (int i = 0; i < matrix.getHeight(); i++) {
             for (int j = 0; j < matrix.getWidth(); j++) {
                 if (matrix.hasBox(i, j)) {
-                    boxX.add(i);
-                    boxY.add(j);
+                    boxX[cnt] = i;
+                    boxY[cnt++] = j;
                 }
                 if (matrix.hasHero(i, j)) {
                     heroX = i;
@@ -38,25 +40,28 @@ public class GameInfo {
         }
     }
 
+    public GameInfo() {
+    }
+
     public void bubble(int p) {
         while (p > 0
-                && (boxX.get(p) < boxX.get(p - 1) || boxX.get(p) == boxX.get(p - 1) && boxY.get(p) < boxY.get(p - 1))) {
-            int temp = boxX.get(p);
-            boxX.set(p, boxX.get(p - 1));
-            boxX.set(p - 1, temp);
-            temp = boxY.get(p);
-            boxY.set(p, boxY.get(p - 1));
-            boxY.set(p - 1, temp);
+                && (boxX[p] < boxX[p - 1] || boxX[p] == boxX[p - 1] && boxY[p] < boxY[p - 1])) {
+            int temp = boxX[p];
+            boxX[p] = boxX[p - 1];
+            boxX[p - 1] = temp;
+            temp = boxY[p];
+            boxY[p] = boxY[p - 1];
+            boxY[p - 1] = temp;
             p--;
         }
         while (p + 1 < boxCnt()
-                && (boxX.get(p) > boxX.get(p + 1) || boxX.get(p) == boxX.get(p + 1) && boxY.get(p) > boxY.get(p + 1))) {
-            int temp = boxX.get(p);
-            boxX.set(p, boxX.get(p + 1));
-            boxX.set(p + 1, temp);
-            temp = boxY.get(p);
-            boxY.set(p, boxY.get(p + 1));
-            boxY.set(p + 1, temp);
+                && (boxX[p] > boxX[p + 1] || boxX[p] == boxX[p + 1] && boxY[p] > boxY[p + 1])) {
+            int temp = boxX[p];
+            boxX[p] = boxX[p + 1];
+            boxX[p + 1] = temp;
+            temp = boxY[p];
+            boxY[p] = boxY[p + 1];
+            boxY[p + 1] = temp;
             p++;
         }
     }
@@ -69,11 +74,11 @@ public class GameInfo {
         return heroY;
     }
 
-    public ArrayList<Integer> getBoxX() {
+    public int[] getBoxX() {
         return boxX;
     }
 
-    public ArrayList<Integer> getBoxY() {
+    public int[] getBoxY() {
         return boxY;
     }
 
@@ -82,18 +87,18 @@ public class GameInfo {
             return null;
         }
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX - 1 && boxY.get(i) == heroY) {
+            if (boxX[i] == heroX - 1 && boxY[i] == heroY) {
                 if (matrix.isWall(heroX - 2, heroY)) {
                     return null;
                 }
                 for (int j = 0; j < boxCnt(); j++) {
-                    if (boxX.get(j) == heroX - 2 && boxY.get(j) == heroY) {
+                    if (boxX[j] == heroX - 2 && boxY[j] == heroY) {
                         return null;
                     }
                 }
                 GameInfo newGame = new GameInfo(this);
                 newGame.heroX--;
-                newGame.boxX.set(i, newGame.boxX.get(i) - 1);
+                newGame.boxX[i] = newGame.boxX[i] - 1;
                 newGame.bubble(i);
                 return newGame;
             }
@@ -108,18 +113,18 @@ public class GameInfo {
             return null;
         }
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX + 1 && boxY.get(i) == heroY) {
+            if (boxX[i] == heroX + 1 && boxY[i] == heroY) {
                 if (matrix.isWall(heroX + 2, heroY)) {
                     return null;
                 }
                 for (int j = 0; j < boxCnt(); j++) {
-                    if (boxX.get(j) == heroX + 2 && boxY.get(j) == heroY) {
+                    if (boxX[j] == heroX + 2 && boxY[j] == heroY) {
                         return null;
                     }
                 }
                 GameInfo newGame = new GameInfo(this);
                 newGame.heroX++;
-                newGame.boxX.set(i, newGame.boxX.get(i) + 1);
+                newGame.boxX[i] = newGame.boxX[i] + 1;
                 newGame.bubble(i);
                 return newGame;
             }
@@ -134,18 +139,18 @@ public class GameInfo {
             return null;
         }
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX && boxY.get(i) == heroY - 1) {
+            if (boxX[i] == heroX && boxY[i] == heroY - 1) {
                 if (matrix.isWall(heroX, heroY - 2)) {
                     return null;
                 }
                 for (int j = 0; j < boxCnt(); j++) {
-                    if (boxX.get(j) == heroX && boxY.get(j) == heroY - 2) {
+                    if (boxX[j] == heroX && boxY[j] == heroY - 2) {
                         return null;
                     }
                 }
                 GameInfo newGame = new GameInfo(this);
                 newGame.heroY--;
-                newGame.boxY.set(i, newGame.boxY.get(i) - 1);
+                newGame.boxY[i] = newGame.boxY[i] - 1;
                 return newGame;
             }
         }
@@ -159,18 +164,18 @@ public class GameInfo {
             return null;
         }
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX && boxY.get(i) == heroY + 1) {
+            if (boxX[i] == heroX && boxY[i] == heroY + 1) {
                 if (matrix.isWall(heroX, heroY + 2)) {
                     return null;
                 }
                 for (int j = 0; j < boxCnt(); j++) {
-                    if (boxX.get(j) == heroX && boxY.get(j) == heroY + 2) {
+                    if (boxX[j] == heroX && boxY[j] == heroY + 2) {
                         return null;
                     }
                 }
                 GameInfo newGame = new GameInfo(this);
                 newGame.heroY++;
-                newGame.boxY.set(i, newGame.boxY.get(i) + 1);
+                newGame.boxY[i] = newGame.boxY[i] + 1;
                 return newGame;
             }
         }
@@ -184,7 +189,7 @@ public class GameInfo {
             return null;
         }
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX + 1 && boxY.get(i) == heroY) {
+            if (boxX[i] == heroX + 1 && boxY[i] == heroY) {
                 return null;
             }
         }
@@ -198,7 +203,7 @@ public class GameInfo {
             return null;
         }
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX - 1 && boxY.get(i) == heroY) {
+            if (boxX[i] == heroX - 1 && boxY[i] == heroY) {
                 return null;
             }
         }
@@ -212,7 +217,7 @@ public class GameInfo {
             return null;
         }
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX && boxY.get(i) == heroY + 1) {
+            if (boxX[i] == heroX && boxY[i] == heroY + 1) {
                 return null;
             }
         }
@@ -226,7 +231,7 @@ public class GameInfo {
             return null;
         }
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX && boxY.get(i) == heroY - 1) {
+            if (boxX[i] == heroX && boxY[i] == heroY - 1) {
                 return null;
             }
         }
@@ -236,7 +241,7 @@ public class GameInfo {
     }
 
     public int boxCnt() {
-        return boxX.size();
+        return boxX.length;
     }
 
     public GameInfo reverseUpBox() {
@@ -245,10 +250,10 @@ public class GameInfo {
         }
         int p = -1;
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX + 1 && boxY.get(i) == heroY) {
+            if (boxX[i] == heroX + 1 && boxY[i] == heroY) {
                 return null;
             }
-            if (boxX.get(i) == heroX - 1 && boxY.get(i) == heroY) {
+            if (boxX[i] == heroX - 1 && boxY[i] == heroY) {
                 p = i;
             }
         }
@@ -256,7 +261,7 @@ public class GameInfo {
             return null;
         }
         GameInfo newGame = new GameInfo(this);
-        newGame.boxX.set(p, newGame.boxX.get(p) + 1);
+        newGame.boxX[p] = newGame.boxX[p] + 1;
         newGame.bubble(p);
         newGame.heroX++;
         return newGame;
@@ -268,10 +273,10 @@ public class GameInfo {
         }
         int p = -1;
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX - 1 && boxY.get(i) == heroY) {
+            if (boxX[i] == heroX - 1 && boxY[i] == heroY) {
                 return null;
             }
-            if (boxX.get(i) == heroX + 1 && boxY.get(i) == heroY) {
+            if (boxX[i] == heroX + 1 && boxY[i] == heroY) {
                 p = i;
             }
         }
@@ -279,7 +284,7 @@ public class GameInfo {
             return null;
         }
         GameInfo newGame = new GameInfo(this);
-        newGame.boxX.set(p, newGame.boxX.get(p) - 1);
+        newGame.boxX[p] = newGame.boxX[p] - 1;
         newGame.bubble(p);
         newGame.heroX--;
         return newGame;
@@ -291,10 +296,10 @@ public class GameInfo {
         }
         int p = -1;
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX && boxY.get(i) == heroY + 1) {
+            if (boxX[i] == heroX && boxY[i] == heroY + 1) {
                 return null;
             }
-            if (boxX.get(i) == heroX && boxY.get(i) == heroY - 1) {
+            if (boxX[i] == heroX && boxY[i] == heroY - 1) {
                 p = i;
             }
         }
@@ -302,7 +307,7 @@ public class GameInfo {
             return null;
         }
         GameInfo newGame = new GameInfo(this);
-        newGame.boxY.set(p, newGame.boxY.get(p) + 1);
+        newGame.boxY[p] = newGame.boxY[p] + 1;
         newGame.heroY++;
         return newGame;
     }
@@ -313,10 +318,10 @@ public class GameInfo {
         }
         int p = -1;
         for (int i = 0; i < boxCnt(); i++) {
-            if (boxX.get(i) == heroX && boxY.get(i) == heroY - 1) {
+            if (boxX[i] == heroX && boxY[i] == heroY - 1) {
                 return null;
             }
-            if (boxX.get(i) == heroX && boxY.get(i) == heroY + 1) {
+            if (boxX[i] == heroX && boxY[i] == heroY + 1) {
                 p = i;
             }
         }
@@ -324,19 +329,28 @@ public class GameInfo {
             return null;
         }
         GameInfo newGame = new GameInfo(this);
-        newGame.boxY.set(p, newGame.boxY.get(p) - 1);
+        newGame.boxY[p] =  newGame.boxY[p] - 1;
         newGame.heroY--;
         return newGame;
     }
 
     public static ArrayList<GameInfo> generateWins(MapMatrix matrix) {
         GameInfo base = new GameInfo();
+        int cnt = 0;
+        for (int i = 0; i < matrix.getHeight(); i++) {
+            for (int j = 0; j < matrix.getWidth(); j++) {
+                cnt += matrix.isGoal(i, j) ? 1 : 0;
+            }
+        }
         base.matrix = matrix;
+        base.boxX = new int[cnt];
+        base.boxY = new int[cnt];
+        cnt = 0;
         for (int i = 0; i < matrix.getHeight(); i++) {
             for (int j = 0; j < matrix.getWidth(); j++) {
                 if (matrix.isGoal(i, j)) {
-                    base.boxX.add(i);
-                    base.boxY.add(j);
+                    base.boxX[cnt] = i;
+                    base.boxY[cnt++] = j;
                 }
             }
         }
@@ -361,8 +375,8 @@ public class GameInfo {
         result = result * 10 + heroX;
         result = result * 10 + heroY;
         for (int i = 0; i < boxCnt(); i++) {
-            result = result * 10 + boxX.get(i);
-            result = result * 10 + boxY.get(i);
+            result = result * 10 + boxX[i];
+            result = result * 10 + boxY[i];
         }
         return result;
     }
@@ -374,7 +388,7 @@ public class GameInfo {
     public String toString() {
         String result = "";
         for (int i = 0; i < boxCnt(); i++) {
-            result += boxX.get(i) + " " + boxY.get(i) + "\n";
+            result += boxX[i] + " " + boxY[i] + "\n";
         }
         result += heroX + " " + heroY + "\n";
         result += hashCode();

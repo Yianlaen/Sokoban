@@ -21,8 +21,8 @@ public class MapMatrix implements java.io.Serializable {
         heroX = gameInfo.getHeroX();
         heroY = gameInfo.getHeroY();
         for (int i = 0; i < gameInfo.boxCnt(); i++) {
-            int x = gameInfo.getBoxX().get(i);
-            int y = gameInfo.getBoxY().get(i);
+            int x = gameInfo.getBoxX()[i];
+            int y = gameInfo.getBoxY()[i];
             matrix[x][y] |= 4;
         }
         matrix[heroX][heroY] |= 8;
