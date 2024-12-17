@@ -14,7 +14,7 @@ public class Projection {
     private static final boolean ORTHOGONAL_PROJECTION = false;
     private static Camera camera;
     private static PointLight pointLight;
-    private static boolean ENABLE_POINT_LIGHT = false;
+    private static boolean ENABLE_POINT_LIGHT = true;
     private static float ambientParameter = 0.3f;
 
     public static Vector2 getProjectedVector(Vector3 vec3) {

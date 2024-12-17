@@ -64,7 +64,7 @@ public class GameCam extends JPanel {
         setBackground(Color.PINK);
         grids = new Object3D[rows][cols];
         boxes = new AnimatedCharacter3D[rows][cols];
-        PointLight pointLight = new PointLight(new Vector3(rows, cols, 30), 0.3f, Color.WHITE);
+        PointLight pointLight = new PointLight(new Vector3(rows, 0, 30), 0.2f, Color.WHITE);
         Projection.setPointLight(pointLight);
         camera = new Camera(new Vector3(0, 0, 1), new Vector3(-1, 0, 0), new Vector3(0, 0, 0), 1);
         Projection.setCamera(camera);
