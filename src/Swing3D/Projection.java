@@ -28,7 +28,6 @@ public class Projection {
             );
             if (transformedRotatedPoint.z == 0) {
 //                throw new RuntimeException("");
-                //TODO
                 projectedPoint = new Vector2();
                 projectedPoint.x = 0;
                 projectedPoint.y = 0;

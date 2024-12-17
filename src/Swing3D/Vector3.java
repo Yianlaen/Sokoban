@@ -26,7 +26,6 @@ public class Vector3 {
     }
 
     public static Vector3 xyzTortp(Vector3 xyz) {
-        //TODO
         return null;
     }
 
